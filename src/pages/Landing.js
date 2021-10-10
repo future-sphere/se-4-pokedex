@@ -14,7 +14,6 @@ function LandingPage() {
   const [err, setErr] = useState(null);
   const history = useHistory();
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const fetchData = useCallback(() => {
     setLoading(true);
     setErr(null);
@@ -31,7 +30,7 @@ function LandingPage() {
 
   useEffect(() => {
     fetchData();
-  }, [fetchData, page]);
+  }, [page]);
 
   const handleSearch = () => {
     setLoading(true);
@@ -52,7 +51,7 @@ function LandingPage() {
     if (!input) {
       fetchData();
     }
-  }, [fetchData, input]);
+  }, [input]);
 
   return (
     <div>
