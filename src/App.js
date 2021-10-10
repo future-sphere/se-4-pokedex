@@ -1,58 +1,20 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import logo from './logo.svg';
 import './App.css';
-import { useEffect, useState } from 'react';
 
-const POKEMONS_PER_PAGE = 20;
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import LandingPage from './pages/Landing';
+import DetailsPage from './pages/Details';
 
 function App() {
-  const [data, setData] = useState(null);
-  const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    setLoading(true);
-    const offset = (page - 1) * POKEMONS_PER_PAGE;
-    fetch(
-      `https://pokeapi.co/api/v2/pokemon?limit=${POKEMONS_PER_PAGE}&offset=${offset}`,
-    )
-      .then((resp) => resp.json())
-      .then((result) => {
-        setData(result.results);
-        setLoading(false);
-      });
-  }, [page]);
   return (
     <div className='App'>
-      <div className='container'>
-        {data ? (
-          data.map((v, i) => {
-            return (
-              <div className='pokemon button'>
-                <p>{v.name}</p>
-              </div>
-            );
-          })
-        ) : (
-          <p>No Pokemons</p>
-        )}
-      </div>
-      <div className='pagination'>
-        <button
-          disabled={page === 1 || loading}
-          className='button'
-          onClick={() => setPage(page === 1 ? 1 : page - 1)}
-        >
-          Prev
-        </button>
-        <button
-          disabled={loading}
-          className='button'
-          onClick={() => setPage(page + 1)}
-        >
-          Next
-        </button>
-      </div>
-      <p className='page-number'>Page {page}</p>
+      <Router>
+        <Switch>
+          <Route exact path='/' component={LandingPage} />
+          <Route path='/pokemon/:name' component={DetailsPage} />
+        </Switch>
+      </Router>
     </div>
   );
 }
